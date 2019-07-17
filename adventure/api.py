@@ -4,8 +4,11 @@ from pusher import Pusher
 from django.http import JsonResponse
 from decouple import config
 from django.contrib.auth.models import User
+from .models import Room
 from .models import *
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializer import RoomSerializer
 import json
 
 # instantiate pusher
@@ -23,6 +26,17 @@ def initialize(request):
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
+@csrf_exempt
+@api_view(["GET"])
+def fetch_rooms(request):
+    rooms = Room.objects.all()
+    serializer = RoomSerializer(rooms, many=True)
+    if request.user:
+        return JsonResponse(serializer.data, safe=False, status=200)
+    else:
+        return JsonResponse({'error':"Not authorized"}, safe=True, status=403)
+
+
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
@@ -36,13 +50,13 @@ def move(request):
     room = player.room()
     nextRoomID = None
     if direction == "n":
-        nextRoomID = room.n_to
+        nextRoomID = room.n
     elif direction == "s":
-        nextRoomID = room.s_to
+        nextRoomID = room.s
     elif direction == "e":
-        nextRoomID = room.e_to
+        nextRoomID = room.e
     elif direction == "w":
-        nextRoomID = room.w_to
+        nextRoomID = room.w
     if nextRoomID is not None and nextRoomID > 0:
         nextRoom = Room.objects.get(id=nextRoomID)
         player.currentRoom=nextRoomID
@@ -63,5 +77,5 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-    # IMPLEMENT
+
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
