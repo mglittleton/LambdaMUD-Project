@@ -77,5 +77,6 @@ def move(request):
 @csrf_exempt
 @api_view(["POST"])
 def say(request):
-
+    body = json.loads(request.body)
+    pusher.trigger(body['room'], 'say', {'message': body['message']})
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
