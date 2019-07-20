@@ -48,8 +48,6 @@ def move(request):
     data = json.loads(request.body)
     direction = data['direction']
     room = player.room()
-    print("fuck shit")
-    print(direction)
     nextRoomID = None
     if direction == "n":
         nextRoomID = room.n
