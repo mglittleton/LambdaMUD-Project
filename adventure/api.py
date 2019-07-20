@@ -23,7 +23,7 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse({'uuid': uuid, 'id': room.id, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
 @csrf_exempt
@@ -37,7 +37,7 @@ def fetch_rooms(request):
         return JsonResponse({'error':"Not authorized"}, safe=True, status=403)
 
 
-# @csrf_exempt
+@csrf_exempt
 @api_view(["POST"])
 def move(request):
     dirs={"n": "north", "s": "south", "e": "east", "w": "west"}
@@ -78,5 +78,5 @@ def move(request):
 @api_view(["POST"])
 def say(request):
     body = json.loads(request.body)
-    pusher.trigger(body['room'], 'say', {'message': body['message']})
-    return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+    pusher.trigger(body['room'], 'say', {'message': body['message'], 'player': request.user.username})
+    return JsonResponse({'success':"Message broadcasted"}, safe=True, status=200)
