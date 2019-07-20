@@ -23,7 +23,7 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'id': room._id, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse({'uuid': uuid, 'id': room.id, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
 @csrf_exempt
@@ -62,7 +62,8 @@ def move(request):
     print(nextRoomID)
     if nextRoomID is not None and nextRoomID > 0:
         print(nextRoomID)
-        nextRoom = Room.objects.get(_id=nextRoomID)
+
+        nextRoom = Room.objects.get(id=nextRoomID)
         print(nextRoomID)
         player.currentRoom=nextRoomID
         player.save()
