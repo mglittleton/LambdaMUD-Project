@@ -944,7 +944,7 @@ for r in rooms:
     if "w" in r: w = r["w"]
     if "x" in r: x = r["x"]
     if "y" in r: y = r["y"]
-    make_r = Room(title=r["title"], description=r["description"], x=x, y=y, n=n, s=s, e=e, w=w,
+    make_r = Room(id=r["id"], title=r["title"], description=r["description"], x=x, y=y, n=n, s=s, e=e, w=w,
                   items="".join(r["items"]))
     make_r.save()
 
