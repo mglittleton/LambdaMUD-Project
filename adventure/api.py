@@ -23,7 +23,7 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'id': room.id, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse({'uuid': uuid, 'id': room._id, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 
 @csrf_exempt
@@ -48,6 +48,8 @@ def move(request):
     data = json.loads(request.body)
     direction = data['direction']
     room = player.room()
+    print("fuck shit")
+    print(direction)
     nextRoomID = None
     if direction == "n":
         nextRoomID = room.n
@@ -57,8 +59,11 @@ def move(request):
         nextRoomID = room.e
     elif direction == "w":
         nextRoomID = room.w
+    print(nextRoomID)
     if nextRoomID is not None and nextRoomID > 0:
-        nextRoom = Room.objects.get(id=nextRoomID)
+        print(nextRoomID)
+        nextRoom = Room.objects.get(_id=nextRoomID)
+        print(nextRoomID)
         player.currentRoom=nextRoomID
         player.save()
         players = nextRoom.playerNames(player_id)
