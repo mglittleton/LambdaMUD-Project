@@ -938,10 +938,10 @@ rooms = [{"id": 0, "x": 13, "y": 16, "title": "Room 0", "n": 4, "s": 8, "e": 1, 
 
 
 for r in rooms:
-    if "n" in r: n = r["n"]
-    if "s" in r: s = r["s"]
-    if "e" in r: e = r["e"]
-    if "w" in r: w = r["w"]
+    n = r["n"] if "n" in r else -1
+    s = r["s"] if "s" in r else -1
+    e = r["e"] if "e" in r else -1
+    w = r["w"] if "w" in r else -1
     if "x" in r: x = r["x"]
     if "y" in r: y = r["y"]
     make_r = Room(id=r["id"], title=r["title"], description=r["description"], x=x, y=y, n=n, s=s, e=e, w=w,
