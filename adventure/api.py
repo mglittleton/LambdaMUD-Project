@@ -58,7 +58,7 @@ def move(request):
     elif direction == "w":
         nextRoomID = room.w
 
-    if nextRoomID is not None and nextRoomID > 0:
+    if nextRoomID is not None and nextRoomID >= 0:
         nextRoom = Room.objects.get(id=nextRoomID)
         player.currentRoom=nextRoomID
         player.save()
