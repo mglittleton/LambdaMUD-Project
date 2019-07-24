@@ -12,8 +12,7 @@ defer==1.0.6
 defusedxml==0.5.0
 distro-info==0.18
 dj-database-url==0.5.0
-# Editable install with no version control (Django==2.1.1)
--e /home/kyle/.local/lib/python3.6/site-packages
+Django==2.1.1
 django-allauth==0.37.1
 django-cors-headers==2.4.0
 django-heroku==0.3.1
